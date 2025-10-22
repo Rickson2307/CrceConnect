@@ -187,15 +187,15 @@ def init_db():
                 venue="College Auditorium"
             ),
             Event(
-                name="Cultural Fest",
-                council="Cultural Council",
+                name="Internship Expo",
+                council="TedxCrce",
                 start_date="2025-12-01",
                 end_date="2025-12-03",
                 venue="College Ground"
             ),
             Event(
-                name="Code Sprint",
-                council="CSI Student Chapter",
+                name="Trek",
+                council="Rotaract",
                 start_date="2025-10-25",
                 end_date="2025-10-25",
                 venue="Computer Labs"

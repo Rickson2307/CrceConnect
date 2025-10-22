@@ -119,10 +119,13 @@
                     <article class="card" data-id="{{ event.id }}">
                         {# Use a data-img attribute and let client JS apply it as a background-image to avoid broken <img> src errors #}
                         {%- set thumb_url = '/static/images/placeholder.svg' -%}
-                        {%- if event.image_url is defined and event.image_url -%}
-                            {%- set thumb_url = event.image_url -%}
+                        {# specific artwork for event id 2 (Internship Expo) #}
+                        {%- if event.id == 2 -%}
+                            {%- set thumb_url = '/static/images/image1.png' -%}
+                        {%- elif 'Rotaract' in (event.council) -%}
+                            {%- set thumb_url = '/static/images/ro.png' -%}
                         {%- elif 'gdsc' in (event.council|lower) -%}
-                            {%- set thumb_url = '/static/images/new_organisation_image-8h9ZwOOkoE382837049fE6HArUzCp (1).png' -%}
+                            {%- set thumb_url = '/static/images/gd.png' -%}
                         {%- else -%}
                             {%- if loop.index is odd -%}
                                 {%- set thumb_url = '/static/images/event1.svg' -%}

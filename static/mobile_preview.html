@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mobile Preview — Events</title>
+  <style>
+    body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(180deg,#031025,#071227);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+    .phone{width:360px;height:780px;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden;border:6px solid rgba(255,255,255,0.03);background:#000}
+    .phone .screen{width:100%;height:100%;border:0}
+    .notes{position:fixed;left:18px;bottom:18px;color:#9aa4b2;font-size:13px}
+    @media(max-width:420px){.phone{transform:scale(0.9)} .notes{left:10px}}
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <iframe class="screen" src="/events" title="Events preview"></iframe>
+  </div>
+  <div class="notes">If the iframe is blank, start the Flask server (python app.py) in a terminal.</div>
+</body>
+</html>
