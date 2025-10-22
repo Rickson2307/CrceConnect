@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrceConnect - Home</title>
+    <style>
+        :root{
+            --bg:#05060a;
+            --panel: rgba(255,255,255,0.03);
+            --panel-border: rgba(255,255,255,0.06);
+            --accent:#6ab0ff;
+            --muted:#9aa4b2;
+            --text:#e6eef8;
+        }
+        *{box-sizing:border-box}
+        body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#060616 0%,#071025 100%);color:var(--text);min-height:100vh}
+        .stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+        .star{position:fixed;border-radius:50%;opacity:.85;filter:blur(.4px);animation:twinkle 3s ease-in-out infinite}
+        @keyframes twinkle{0%,100%{opacity:.6}50%{opacity:1}}
+
+        .topbar{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;z-index:2;background:rgba(2,8,20,0.45);backdrop-filter:blur(6px);padding:0 20px;border-bottom:1px solid rgba(255,255,255,0.03)}
+        .brand{font-weight:700;color:var(--text);display:flex;gap:10px;align-items:center}
+        .container{max-width:1100px;margin:88px auto 40px;padding:0 20px;position:relative;z-index:1}
+
+        .hero{background:var(--panel);border:1px solid var(--panel-border);padding:36px;border-radius:12px}
+        .hero h1{font-size:28px;margin-bottom:8px}
+        .hero p{color:var(--muted);margin-bottom:12px}
+        .cta{background:var(--accent);color:#02203a;padding:10px 16px;border-radius:8px;border:none;font-weight:700}
+
+        .features{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+        .feature{background:var(--panel);border:1px solid var(--panel-border);padding:16px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+        .feature h3{margin-bottom:8px}
+
+        @media(max-width:700px){.features{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="{{ url_for('home') }}" class="logo">CrceConnect</a>
+            <a href="{{ url_for('display_events') }}" class="cta-button">Events</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="hero">
+            <h1>Welcome to CrceConnect</h1>
+            <p>Stay connected with all the exciting events happening at Fr. Conceicao Rodrigues College of Engineering. Never miss an opportunity to participate, learn, and grow!</p>
+            <a href="{{ url_for('display_events') }}" class="cta-button">View All Events</a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>College Events</h3>
+                <p>Stay updated with technical symposiums, cultural festivals, and academic events happening on campus.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Council Activities</h3>
+                <p>Follow activities from IEEE, CSI, and other student councils. Get involved in your areas of interest.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Easy Access</h3>
+                <p>Quick and simple way to find all upcoming events in one place. Never miss an important event again!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stars-container" id="starsContainer"></div>
+
+    <script>
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Random size between 2 and 6 pixels
+            const size = Math.random() * 4 + 2;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // Random position
+            const startX = Math.random() * window.innerWidth;
+            star.style.left = `${startX}px`;
+            
+            // Random duration between 5 and 15 seconds
+            const duration = Math.random() * 10 + 5;
+            star.style.animationDuration = `${duration}s`;
+            
+            // Random delay
+            const delay = Math.random() * 5;
+            star.style.animationDelay = `${delay}s`;
+            
+            // Add glow effect based on size
+            const glow = size * 2;
+            star.style.boxShadow = `0 0 ${glow}px ${glow / 2}px rgba(255, 255, 255, 0.8)`;
+            
+            return star;
+        }
+
+        function initStars() {
+            const container = document.getElementById('starsContainer');
+            
+            // Create 50 stars
+            for (let i = 0; i < 50; i++) {
+                const star = createStar();
+                container.appendChild(star);
+            }
+
+            // Periodically remove old stars and add new ones
+            setInterval(() => {
+                const stars = container.getElementsByClassName('star');
+                if (stars.length > 50) {
+                    container.removeChild(stars[0]);
+                }
+                const newStar = createStar();
+                container.appendChild(newStar);
+            }, 3000);
+        }
+
+        // Initialize stars when page loads
+        window.addEventListener('load', initStars);
+
+        // Reinitialize stars when window is resized
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const container = document.getElementById('starsContainer');
+                container.innerHTML = '';
+                initStars();
+            }, 300);
+        });
+    </script>
+</body>
+</html>

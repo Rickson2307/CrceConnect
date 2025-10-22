@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>CrceConnect — Home</title>
+        <style>
+            :root{
+                --bg-1: #041021;
+                --bg-2: #071227;
+                --card: rgba(255,255,255,0.035);
+                --card-2: rgba(255,255,255,0.02);
+                --accent: #7cc6ff;
+                --accent-2:#a6d8ff;
+                --muted: rgba(234,246,255,0.72);
+                --text: #eaf6ff;
+                --glass: 0 12px 36px rgba(2,6,20,0.6);
+            }
+
+            html,body{height:100%;margin:0;font-family:"Inter",Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--text);-webkit-font-smoothing:antialiased}
+            *{box-sizing:border-box}
+
+            /* Stars container (fixed behind content) */
+            #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+            .star{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff,rgba(255,255,255,0.6));opacity:.9;filter:blur(.5px);will-change:opacity,transform}
+
+            /* Top navigation */
+            header.topbar{position:fixed;inset:12px 0 auto 0;height:64px;display:flex;align-items:center;justify-content:center;z-index:6}
+            .topbar .inner{width:100%;max-width:1100px;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+            .brand{font-weight:800;font-size:18px}
+            .nav-actions{display:flex;gap:10px}
+            a.btn{background:linear-gradient(180deg,var(--accent),var(--accent-2));padding:10px 16px;border-radius:12px;color:#02203a;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(109,182,230,0.08)}
+            a.ghost{background:transparent;color:var(--text);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+
+            /* Page container */
+            .page{position:relative;z-index:3;max-width:1100px;margin:110px auto 60px;padding:0 20px}
+
+            .hero{display:flex;gap:28px;align-items:center;background:linear-gradient(180deg,var(--card),transparent);border-radius:16px;padding:36px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--glass);transform:translateZ(0)}
+            .hero .left{flex:1}
+            .hero h1{margin:0;font-size:36px;line-height:1.02}
+            .hero p{color:var(--muted);margin:12px 0 18px;max-width:56ch}
+            .hero .actions{display:flex;gap:12px}
+            .hero .actions a{transition:transform .18s ease}
+            .hero .actions a:hover{transform:translateY(-4px)}
+
+            .hero .right{width:240px;height:150px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.02)}
+
+            .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+            .feature{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 24px rgba(2,6,20,0.35)}
+            .feature h3{margin:0 0 8px}
+            .muted{color:var(--muted);font-size:15px}
+
+            footer{max-width:1100px;margin:40px auto 30px;padding:0 20px;color:var(--muted);text-align:center}
+
+            @media(max-width:880px){
+                .hero{flex-direction:column;align-items:flex-start}
+                .hero .right{width:100%;height:140px}
+                .features{grid-template-columns:repeat(2,1fr)}
+            }
+            @media(max-width:520px){.features{grid-template-columns:1fr}.hero h1{font-size:22px}}
+        </style>
+    </head>
+    <body>
+        <div id="stars" aria-hidden="true"></div>
+
+        <header class="topbar">
+            <div class="inner">
+                <div class="brand">CrcEvent</div>
+                <div class="nav-actions">
+                    <a href="{{ url_for('display_events') }}" class="btn">Explore</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="page">
+            <section class="hero" aria-label="Welcome">
+                <div class="left">
+                    <h1>Discover college events, register, and stay involved</h1>
+                    <p class="muted">CrceConnect brings together campus events, council activities and workshops in one place. Browse upcoming events, register with one click, and track your participations.</p>
+                    <div class="actions">
+                        <a class="btn" href="{{ url_for('display_events') }}">View Events</a>
+                        <a class="ghost" href="#features">Why CrceConnect</a>
+                    </div>
+                </div>
+                <div class="right">
+                    <!-- small illustrative panel - can later hold an image -->
+                    <div style="text-align:center;opacity:.95">
+                        <svg width="86" height="86" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3 6 6 .5-4.5 3L18 22l-6-4-6 4 .5-10L2 8.5 8 8 12 2z" fill="rgba(122,200,255,0.9)"/></svg>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="features" aria-label="features">
+                <div class="feature">
+                    <h3>All Campus Events</h3>
+                    <p class="muted">From technical workshops to cultural programs — find everything at a glance and register instantly.</p>
+                </div>
+                <div class="feature">
+                    <h3>Student Councils</h3>
+                    <p class="muted">Follow IEEE, CSI and other clubs. Discover meetings, competitions, and volunteering opportunities.</p>
+                </div>
+                <div class="feature">
+                    <h3>Easy Registrations</h3>
+                    <p class="muted">Sign up with your details quickly. Manage or remove registrations from the events page.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            Built for Fr. Conceicao Rodrigues College of Engineering — CrcEvent • <span class="muted"></span>
+        </footer>
+
+        <script>
+            // Create a static set of subtle twinkling stars behind content.
+            (function makeStars(count = 60){
+                const container = document.getElementById('stars');
+                const w = window.innerWidth, h = window.innerHeight;
+                for(let i=0;i<count;i++){
+                    const s = document.createElement('div');
+                    s.className = 'star';
+                    const size = Math.random()*3 + 1; // 1-4px
+                    s.style.width = s.style.height = size + 'px';
+                    s.style.left = Math.random()*100 + '%';
+                    s.style.top = Math.random()*100 + '%';
+                    s.style.opacity = (Math.random()*0.7 + 0.3).toString();
+                    s.style.boxShadow = `0 0 ${Math.max(2,size*3)}px rgba(255,255,255,0.9)`;
+                    // gentle twinkle via transition loop (randomized)
+                    s.style.transition = `opacity ${3 + Math.random()*4}s ease-in-out`;
+                    container.appendChild(s);
+                    // schedule a slow opacity change to simulate twinkle
+                    (function loop(el){
+                        setTimeout(()=>{ el.style.opacity = (Math.random()*0.7 + 0.3).toString(); loop(el); }, 2000 + Math.random()*4000);
+                    })(s);
+                }
+            })();
+        </script>
+    </body>
+</html>

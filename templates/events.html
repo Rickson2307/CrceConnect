@@ -1,79 +1,293 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Events - CrceConnect</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CrcEvent — Events</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+        :root{
+            --bg:#051021;
+            --panel: rgba(255,255,255,0.035);
+            --panel-2: rgba(255,255,255,0.02);
+            --accent:#6fc2ff;
+            --muted:#9aa4b2;
+            --text:#eaf6ff;
+            --shadow: 0 12px 36px rgba(2,6,23,0.6);
         }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
+        *{box-sizing:border-box}
+        body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#071227);color:var(--text);min-height:100vh}
+        .stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+        .star{position:fixed;border-radius:50%;opacity:.9;filter:blur(.4px);animation:twinkle 3s ease-in-out infinite}
+        @keyframes twinkle{0%,100%{opacity:.6}50%{opacity:1}}
+
+        .topbar{position:fixed;top:12px;left:0;right:0;height:64px;display:flex;align-items:center;z-index:5}
+        .topbar .inner{width:100%;max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+        .brand{font-weight:800;color:var(--text);font-size:18px}
+        .nav-actions{display:flex;gap:12px;align-items:center}
+        a.btn{background:linear-gradient(180deg,var(--accent),var(--accent));padding:10px 14px;border-radius:12px;color:#02203a;font-weight:700;text-decoration:none}
+        a.ghost{background:transparent;color:var(--text);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+
+        .container{max-width:1200px;margin:100px auto 40px;padding:0 20px;position:relative;z-index:2}
+        h1{font-size:30px;margin-bottom:12px}
+
+        .search-wrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+        .searchbar{flex:1;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03)}
+        .searchbar input{flex:1;background:transparent;border:0;color:var(--text);outline:none;font-size:15px}
+        .filters{display:flex;gap:12px;align-items:center}
+        select{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text);padding:8px;border-radius:8px}
+        /* make Clear Filters look like a soft pill button */
+        .clear{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 12px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.06);
+            background:transparent;
+            color:var(--muted);
+            text-decoration:none;
+            font-weight:600;
+            transition:background .12s ease,transform .12s ease,color .12s ease;
         }
-        .events-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .event-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        .event-card:hover {
-            transform: translateY(-5px);
-        }
-        .event-name {
-            color: #2c3e50;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .event-council {
-            color: #e67e22;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .event-details {
-            color: #666;
-            margin-bottom: 5px;
-        }
-        .total-events {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
+        .clear::before{ content: '✕'; display:inline-block; font-size:13px; opacity:0.9; color:var(--muted); }
+        .clear:hover{ background:rgba(255,255,255,0.02); color:var(--text); transform:translateY(-2px); }
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:22px}
+        .card{background:linear-gradient(180deg,var(--panel),transparent);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--shadow);transition:transform .18s}
+        .card:hover{transform:translateY(-8px)}
+    .thumb{height:160px;background-size:cover;background-position:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.02)}
+        .card-body{padding:16px}
+    .badge-img{display:flex;align-items:center;margin-bottom:8px;gap:10px}
+    .badge-img img{width:46px;height:46px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,0.04)}
+    .council-pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-size:12px;font-weight:600}
+        .title{font-weight:800;margin-bottom:6px;font-size:16px}
+        .meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+        .actions{display:flex;gap:8px}
+        .btn{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer}
+        .btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent));color:#02203a;border:none;font-weight:700}
+
+        .reg-form{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+        .reg-form input{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:var(--text)}
+        .small{font-size:13px;color:var(--muted)}
+
+        @media(max-width:700px){.filters{flex-direction:column;align-items:stretch}.actions{flex-direction:column}}
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>College Events</h1>
-    </div>
-    
-    <div class="events-container">
-        {% for event in events %}
-        <div class="event-card">
-            <div class="event-name">{{ event.name }}</div>
-            <div class="event-council">{{ event.council }}</div>
-            <div class="event-details">
-                <p><strong>Start Date:</strong> {{ event.start_date }}</p>
-                <p><strong>End Date:</strong> {{ event.end_date }}</p>
-                <p><strong>Venue:</strong> {{ event.venue }}</p>
+    <div class="stars" id="stars"></div>
+    <div class="topbar">
+        <div class="inner">
+            <div class="brand">CrcEvents</div>
+            <div class="nav-actions">
+                <a href="{{ url_for('home') }}" class="btn">Home</a>
+                <a href="{{ url_for('view_registrations') }}" class="ghost">Registrations</a>
             </div>
         </div>
-        {% endfor %}
     </div>
 
-    <div class="total-events">
-        <p>Total Events: {{ total_events }}</p>
-    </div>
+    <main class="container">
+        <header>
+            <h1>Upcoming Events</h1>
+            <div class="search-wrap">
+                <form method="GET" action="{{ url_for('display_events') }}" class="searchbar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
+                    <input name="search" placeholder="Search for events, fests, workshops..." value="{{ request.args.get('search','') }}">
+                </form>
+                <div class="filters">
+                    <div class="filter-left">
+                        <form method="GET" action="{{ url_for('display_events') }}">
+                            <select name="category" onchange="this.form.submit()">
+                                <option value="">Category</option>
+                                <option value="Technical" {% if request.args.get('category')=='Technical' %}selected{% endif %}>Technical</option>
+                                <option value="Cultural" {% if request.args.get('category')=='Cultural' %}selected{% endif %}>Cultural</option>
+                                <option value="Academic" {% if request.args.get('category')=='Academic' %}selected{% endif %}>Academic</option>
+                                <option value="Sports" {% if request.args.get('category')=='Sports' %}selected{% endif %}>Sports</option>
+                            </select>
+                            <select name="sort_by" onchange="this.form.submit()">
+                                <option value="date" {% if request.args.get('sort_by','date')=='date' %}selected{% endif %}>Sort by Date</option>
+                                <option value="name" {% if request.args.get('sort_by')=='name' %}selected{% endif %}>Sort by Name</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div><a class="clear" href="{{ url_for('display_events') }}">Clear Filters</a></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="grid">
+            {% for event in events %}
+                    <article class="card" data-id="{{ event.id }}">
+                        {# Use a data-img attribute and let client JS apply it as a background-image to avoid broken <img> src errors #}
+                        {%- set thumb_url = '/static/images/placeholder.svg' -%}
+                        {%- if event.image_url is defined and event.image_url -%}
+                            {%- set thumb_url = event.image_url -%}
+                        {%- elif 'gdsc' in (event.council|lower) -%}
+                            {%- set thumb_url = '/static/images/new_organisation_image-8h9ZwOOkoE382837049fE6HArUzCp (1).png' -%}
+                        {%- else -%}
+                            {%- if loop.index is odd -%}
+                                {%- set thumb_url = '/static/images/event1.svg' -%}
+                            {%- else -%}
+                                {%- set thumb_url = '/static/images/event2.svg' -%}
+                            {%- endif -%}
+                        {%- endif -%}
+                        <div class="thumb" data-img="{{ thumb_url }}"></div>
+                        <div class="card-body">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px">
+                                <div style="display:flex;align-items:center;gap:12px">
+                                    <div class="badge-img"><img data-badge="{{ event.council_image_url or '/static/images/placeholder-badge.svg' }}" alt="council logo"></div>
+                                    <div>
+                                        <div class="title">{{ event.name }}</div>
+                                        <div class="meta">{{ event.start_date or event.date }} • {{ event.venue }}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="council-pill">{{ event.council }}</span>
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <button class="btn view-btn" data-id="{{ event.id }}">View Details</button>
+                                <button class="btn primary toggle-btn" data-id="{{ event.id }}">Register / Remove</button>
+                            </div>
+
+                    <div class="reg-form" id="reg-{{ event.id }}" style="display:none">
+                        <input name="name" placeholder="Full name" id="name-{{ event.id }}">
+                        <input name="class_name" placeholder="Class" id="class-{{ event.id }}">
+                        <input name="year" placeholder="Year" id="year-{{ event.id }}" type="number" min="1" max="4">
+                        <input name="roll_no" placeholder="Roll number" id="roll-{{ event.id }}">
+                                    <div style="display:flex;gap:8px;margin-top:6px">
+                                        <button type="button" class="btn submit-register" data-id="{{ event.id }}">Submit</button>
+                                        <button type="button" class="btn submit-unregister" data-id="{{ event.id }}">Remove Registration</button>
+                                    </div>
+                        <div class="small" id="reg-msg-{{ event.id }}"></div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+
+    </main>
+
+    <script>
+        // create static twinkling stars behind content
+        function makeStars(count){
+            const container = document.getElementById('stars');
+            container.innerHTML='';
+            for(let i=0;i<count;i++){
+                const s=document.createElement('div');
+                s.className='star';
+                const size=Math.random()*3+1; s.style.width=size+'px'; s.style.height=size+'px';
+                s.style.left=(Math.random()*innerWidth)+'px'; s.style.top=(Math.random()*innerHeight)+'px';
+                const colors=['rgba(255,255,255,0.9)','rgba(170,200,255,0.8)','rgba(255,220,180,0.8)'];
+                const c=colors[Math.floor(Math.random()*colors.length)]; s.style.background=c; s.style.boxShadow=`0 0 ${size*2}px ${size}px ${c}`;
+                s.style.animationDuration=(Math.random()*2+2)+'s'; s.style.animationDelay=(Math.random()*2)+'s';
+                container.appendChild(s);
+            }
+        }
+        makeStars(window.innerWidth<768?70:140);
+        window.addEventListener('resize',()=>{clearTimeout(window._s);window._s=setTimeout(()=>makeStars(innerWidth<768?70:140),200)});
+
+            function toggleRegister(id){
+                const el=document.getElementById('reg-'+id);
+                if(!el) return;
+                el.style.display = (el.style.display==='none' || el.style.display==='')? 'flex':'none';
+                el.scrollIntoView({behavior:'smooth', block:'center'});
+            }
+
+            async function submitRegisterById(id){
+                const msg=document.getElementById('reg-msg-'+id);
+                const nameEl=document.getElementById('name-'+id);
+                const classEl=document.getElementById('class-'+id);
+                const yearEl=document.getElementById('year-'+id);
+                const rollEl=document.getElementById('roll-'+id);
+                const name = nameEl && nameEl.value.trim();
+                const class_name = classEl && classEl.value.trim();
+                const year = yearEl && yearEl.value.trim();
+                const roll_no = rollEl && rollEl.value.trim();
+                if(!name||!class_name||!year||!roll_no){ msg.textContent='Please fill all fields'; msg.style.color='var(--error)'; return }
+                const form=new FormData(); form.append('name',name); form.append('class_name',class_name); form.append('year',year); form.append('roll_no',roll_no);
+                try{
+                    console.log('submitRegisterById: sending', {id, name, class_name, year, roll_no});
+                    const res=await fetch(`/event/${id}/register`,{method:'POST',body:form});
+                    const text = await res.text();
+                    console.log('submitRegisterById: response', res.status, text);
+                    let data;
+                    try{ data = JSON.parse(text); } catch(e){ data = { success: res.ok, message: text || 'Unexpected server response' }; }
+                    if(data.success){ msg.textContent = data.message || 'Registered successfully'; msg.style.color='var(--success)'; }
+                    else { msg.textContent = data.message || 'Failed to register'; msg.style.color='var(--error)'; }
+                }catch(err){ console.error('submitRegisterById error', err); msg.textContent='Network error — could not reach server'; msg.style.color='var(--error)'; }
+            }
+
+            async function submitUnregisterById(id){
+                const msg=document.getElementById('reg-msg-'+id);
+                const rollEl=document.getElementById('roll-'+id);
+                const roll_no = rollEl && rollEl.value.trim();
+                if(!roll_no){ msg.textContent='Please enter roll number to remove registration'; msg.style.color='var(--error)'; return }
+                const form=new FormData(); form.append('roll_no',roll_no);
+                try{
+                    const res=await fetch(`/event/${id}/unregister`,{method:'POST',body:form});
+                    const text = await res.text();
+                    let data;
+                    try{ data = JSON.parse(text); } catch(e){ data = { success: res.ok, message: text || 'Unexpected server response' }; }
+                    if(data.success){ msg.textContent = data.message || 'Unregistered'; msg.style.color='var(--success)'; }
+                    else { msg.textContent = data.message || 'Not found'; msg.style.color='var(--error)'; }
+                }catch(err){ msg.textContent='Network error'; msg.style.color='var(--error)'; }
+            }
+
+            // wire up dynamic elements after DOM is ready
+            document.addEventListener('DOMContentLoaded', ()=>{
+                // set thumb images
+                document.querySelectorAll('.thumb').forEach(div=>{
+                    const url = div.getAttribute('data-img');
+                    if(url) div.style.backgroundImage = `url('${url}')`;
+                });
+
+                // set badge images from data-badge
+                document.querySelectorAll('.badge-img img').forEach(img=>{
+                    const url = img.getAttribute('data-badge');
+                    // smart override: if card title mentions GDSC, show the GDSC badge
+                    const card = img.closest('.card');
+                    const titleEl = card ? card.querySelector('.title') : null;
+                    const titleText = titleEl ? titleEl.textContent || '' : '';
+                    if(/gdsc/i.test(titleText)){
+                        // try PNG first (use the attached image if you place it at /static/images/gdsc.png)
+                        img.src = '/static/images/gdsc.png';
+                        img.onerror = function(){ img.onerror = null; img.src = '/static/images/gdsc-badge.svg'; };
+                    } else if(url){
+                        img.src = url;
+                    }
+                });
+
+                    // attach listeners
+                    document.querySelectorAll('.toggle-btn').forEach(btn=> btn.addEventListener('click', e=> toggleRegister(btn.dataset.id)));
+                    document.querySelectorAll('.view-btn').forEach(btn=> btn.addEventListener('click', e=> viewDetails(btn.dataset.id)));
+                    document.querySelectorAll('.submit-register').forEach(btn=> btn.addEventListener('click', e=> submitRegisterById(btn.dataset.id)));
+                    document.querySelectorAll('.submit-unregister').forEach(btn=> btn.addEventListener('click', e=> submitUnregisterById(btn.dataset.id)));
+
+                    // clear filters behavior: reset search and filter inputs, then navigate to base events URL
+                    const clearLink = document.querySelector('.clear');
+                    if(clearLink){
+                        clearLink.addEventListener('click', (ev)=>{
+                            ev.preventDefault();
+                            // reset the searchbar form
+                            const searchForm = document.querySelector('form.searchbar');
+                            if(searchForm){
+                                const inputs = searchForm.querySelectorAll('input');
+                                inputs.forEach(i=> i.value = '');
+                            }
+                            // reset filters form if present
+                            const filtersForm = document.querySelector('.filter-left form');
+                            if(filtersForm){
+                                const selects = filtersForm.querySelectorAll('select');
+                                selects.forEach(s=> s.selectedIndex = 0);
+                            }
+                            // navigate to the base events page (href has no query params)
+                            window.location.href = clearLink.href;
+                        });
+                    }
+                });
+
+        function viewDetails(id){ alert('Open details for event '+id); }
+    </script>
 </body>
 </html>
