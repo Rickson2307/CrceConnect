@@ -80,7 +80,7 @@
             <div class="brand">CrcEvents</div>
             <div class="nav-actions">
                 <a href="{{ url_for('home') }}" class="btn">Home</a>
-                <a href="{{ url_for('view_registrations') }}" class="ghost">Registrations</a>
+                <a href="{{ url_for('view_registrations') }}" class="ghost"></a>
             </div>
         </div>
     </div>
@@ -123,7 +123,9 @@
                         {%- if event.id == 2 -%}
                             {%- set thumb_url = '/static/images/image1.png' -%}
                         {%- elif 'Rotaract' in (event.council) -%}
-                            {%- set thumb_url = '/static/images/ro.png' -%}
+                           {%- set thumb_url = '/static/images/ro.png' -%}
+                        {%- elif 'StudentsCouncil' in (event.council) -%}
+                            {%- set thumb_url = '/static/images/eu.png' -%}
                         {%- elif 'gdsc' in (event.council|lower) -%}
                             {%- set thumb_url = '/static/images/gd.png' -%}
                         {%- else -%}

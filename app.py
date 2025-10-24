@@ -194,6 +194,13 @@ def init_db():
                 venue="College Ground"
             ),
             Event(
+                name="Euphoria'25 ",
+                council="StudentsCouncil",
+                start_date="2025-10-25",
+                end_date="2025-10-25",
+                venue="Computer Labs"
+            ),
+            Event(
                 name="Trek",
                 council="Rotaract",
                 start_date="2025-10-25",
